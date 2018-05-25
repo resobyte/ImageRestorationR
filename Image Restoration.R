@@ -11,3 +11,14 @@ M4 <- 3 - M2
 X.ori <- cbind(rbind(M1,M4),rbind(M2,M3))
 
 image(X.ori, axes=FALSE, frame.plot=FALSE, col = grey(c(0, 0.8)))
+
+p <- 0.2
+set.seed(12345)
+N <- dim(X.ori)[1]
+Y <- X.ori
+Y1 <- Y[2:(N-1),2:(N-1)]
+i1 <- which(runif(((N-2)^2)) < p)
+Y1[i1] <- 3-Y1[i1]
+Y[2:(N-1),2:(N-1)] <- Y1
+
+image(Y, axes=FALSE, frame.plot=FALSE, col=grey(c(0, 0.8)))
