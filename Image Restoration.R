@@ -46,3 +46,26 @@ for (k in (1:nmcmc)) {
   }
 }
 image(X, axes=FALSE, frame.plot=FALSE, col = grey(c(0, 0.8)))
+
+alpha <- 0
+beta <- 1.5
+lambda <- log((1-p)/p)
+nmcmc <- 50
+set.seed(12345)
+X <- Y
+for (k in (1:nmcmc)) {
+  for (i in sample(2:(N-1))) {
+    for (j in sample(2:(N-1))) {
+      Vij <- c(X[i-1,j], X[i+1,j], X[i,j-1], X[i,j+1])
+      u1 <-   beta*sum(Vij!=1) + alpha + lambda*(Y[i,j]!=1)
+      u2 <-   beta*sum(Vij!=2) + lambda*(Y[i,j]!=2)
+      p1 <- 1/(1+exp(-u2+u1))
+      r <- runif(1)
+      if (r < p1)
+        X[i,j] <- 1
+      else 
+        X[i,j] <- 2
+    }
+  }
+}
+image(X, axes=FALSE, frame.plot=FALSE, col = grey(c(0, 0.8)))
